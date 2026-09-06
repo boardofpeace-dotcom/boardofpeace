@@ -381,32 +381,19 @@
 
 <script>
 // ============================================================
-// KONFIGURASI AIRTABLE
+// KONFIGURASI AIRTABLE 
 // ============================================================
 const AIRTABLE_TOKEN = 'patJGDi1qycN6cDvI.2b612b682d1fd20160c44bb6553270b1d426bdef4a680311355b59c265185897';
 const BASE_ID = 'appSlTj1RmupALde2';
-const TABLE_NAME = 'tblYakJnlz6t2ZPYl'; // Ganti dengan Table ID kamu
+const TABLE_NAME = 'tblYakJnlz6t2ZPYl';
 
-// Helper function untuk mapping fields
-function getFields(nama, sikap) {
-    return {
-        "fields": {
-            "Name": nama,
-            "Sikap": sikap,
-            "Waktu": new Date().toISOString()
-        }
-    };
-}
-
-// ========== LOAD DATA DARI AIRTABLE ==========
+// ========== FUNGSI MEMUAT DATA ==========
 async function loadData() {
     const list = document.getElementById('daftar');
     try {
         const url = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
         const response = await fetch(url, {
-            headers: {
-                'Authorization': `Bearer ${AIRTABLE_TOKEN}`
-            }
+            headers: { 'Authorization': `Bearer ${AIRTABLE_TOKEN}` }
         });
 
         if (!response.ok) {
@@ -422,22 +409,23 @@ async function loadData() {
         let penandatangan = [];
 
         records.forEach(record => {
-            const sikap = record.fields.Sikap;
-            const nama = record.fields.Name || 'Anonim';
+            // PERBAIKAN: Menggunakan "Nama" sesuai dengan kolom di Airtable
+            const nama = record.fields.Nama || 'Anonim';
+            const sikap = record.fields.Sikap || 'Tidak Diketahui';
             penandatangan.push({ nama, sikap });
             if (sikap === 'Setuju') setuju++;
             else if (sikap === 'Tidak Setuju') tidak++;
             else if (sikap === 'Abstain') abstain++;
         });
 
-        // Update stats
+        // Update elemen statistik
         document.getElementById('totalStat').textContent = total;
         document.getElementById('setujuStat').textContent = setuju;
         document.getElementById('tidakStat').textContent = tidak;
         document.getElementById('abstainStat').textContent = abstain;
         document.getElementById('jumlahTtd').textContent = total;
 
-        // Update daftar
+        // Update daftar penandatangan
         if (total === 0) {
             list.innerHTML = '<li class="state-row"><i class="fa-regular fa-file-lines"></i> Belum ada tanda tangan. Jadilah yang pertama!</li>';
         } else {
@@ -448,7 +436,11 @@ async function loadData() {
                 if (p.sikap === 'Setuju') { cls = 'setuju'; icon = 'fa-solid fa-circle-check'; }
                 else if (p.sikap === 'Tidak Setuju') { cls = 'tidak'; icon = 'fa-solid fa-circle-xmark'; }
                 else { cls = 'abstain'; icon = 'fa-solid fa-circle-minus'; }
-                return `<li><span class="num">${num}</span><span class="name">${escapeHtml(p.nama)}</span><span class="tag ${cls}"><i class="${icon}"></i>${escapeHtml(p.sikap)}</span></li>`;
+                return `<li>
+                            <span class="num">${num}</span>
+                            <span class="name">${escapeHtml(p.nama)}</span>
+                            <span class="tag ${cls}"><i class="${icon}"></i>${escapeHtml(p.sikap)}</span>
+                        </li>`;
             }).join('');
         }
     } catch (error) {
@@ -457,7 +449,7 @@ async function loadData() {
     }
 }
 
-// ========== KIRIM TANDA TANGAN KE AIRTABLE ==========
+// ========== FUNGSI MENANDATANGANI ==========
 async function tandaTangan() {
     const nama = document.getElementById('nama').value.trim();
     const sikap = document.querySelector('input[name="sikap"]:checked');
@@ -478,7 +470,14 @@ async function tandaTangan() {
 
     try {
         const url = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
-        const payload = getFields(nama, sikap.value);
+        const payload = {
+            fields: {
+                // PERBAIKAN: Menggunakan "Nama" sesuai dengan kolom di Airtable
+                Nama: nama,
+                Sikap: sikap.value,
+                Waktu: new Date().toISOString()
+            }
+        };
 
         const response = await fetch(url, {
             method: 'POST',
@@ -519,9 +518,9 @@ function escapeHtml(text) {
     return div.innerHTML;
 }
 
-// Load data saat halaman dibuka
+// ========== JALANKAN SAAT HALAMAN DIMUAT ==========
 window.onload = function() { loadData(); };
 </script>
 
 </body>
-  </html>
+      </html>
