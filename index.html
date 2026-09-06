@@ -380,99 +380,148 @@
 </div>
 
 <script>
-const API_URL = 'https://script.google.com/macros/s/AKfycbz3pITH2_VoZnQ1VRjtcnNkIweqn2xZUxW94qR9JbfToHTDXSGs2sykxK-m6zWIpcuy/exec';
+// ============================================================
+// KONFIGURASI AIRTABLE
+// ============================================================
+const AIRTABLE_TOKEN = 'patJGDi1qycN6cDvI.2b612b682d1fd20160c44bb6553270b1d426bdef4a680311355b59c265185897';
+const BASE_ID = 'appSlTj1RmupALde2';
+const TABLE_NAME = 'tblYakJnlz6t2ZPYl'; // Ganti dengan Table ID kamu
 
-function iconFor(sikap){
-  if(sikap === 'Setuju') return 'fa-solid fa-circle-check';
-  if(sikap === 'Tidak Setuju') return 'fa-solid fa-circle-xmark';
-  return 'fa-solid fa-circle-minus';
+// Helper function untuk mapping fields
+function getFields(nama, sikap) {
+    return {
+        "fields": {
+            "Name": nama,
+            "Sikap": sikap,
+            "Waktu": new Date().toISOString()
+        }
+    };
 }
-function classFor(sikap){
-  if(sikap === 'Setuju') return 'setuju';
-  if(sikap === 'Tidak Setuju') return 'tidak';
-  return 'abstain';
-}
 
-async function loadData(){
-  try{
-    const response = await fetch(API_URL);
-    const data = await response.json();
-
-    document.getElementById('totalStat').textContent = data.total || 0;
-    document.getElementById('setujuStat').textContent = data.setuju || 0;
-    document.getElementById('tidakStat').textContent = data.tidak || 0;
-    document.getElementById('abstainStat').textContent = data.abstain || 0;
-    document.getElementById('jumlahTtd').textContent = data.total || 0;
-
+// ========== LOAD DATA DARI AIRTABLE ==========
+async function loadData() {
     const list = document.getElementById('daftar');
-    if(!data.list || data.list.length === 0){
-      list.innerHTML = '<li class="state-row"><i class="fa-regular fa-file-lines"></i> Belum ada tanda tangan. Jadilah yang pertama!</li>';
-    } else {
-      const reversed = data.list.slice().reverse();
-      list.innerHTML = reversed.map((p, idx) => {
-        const cls = classFor(p.sikap);
-        const icon = iconFor(p.sikap);
-        const num = String(reversed.length - idx).padStart(2, '0');
-        return `<li><span class="num">${num}</span><span class="name">${escapeHtml(p.nama)}</span><span class="tag ${cls}"><i class="${icon}"></i>${escapeHtml(p.sikap)}</span></li>`;
-      }).join('');
+    try {
+        const url = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': `Bearer ${AIRTABLE_TOKEN}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        const records = data.records;
+
+        // Hitung statistik
+        let total = records.length;
+        let setuju = 0, tidak = 0, abstain = 0;
+        let penandatangan = [];
+
+        records.forEach(record => {
+            const sikap = record.fields.Sikap;
+            const nama = record.fields.Name || 'Anonim';
+            penandatangan.push({ nama, sikap });
+            if (sikap === 'Setuju') setuju++;
+            else if (sikap === 'Tidak Setuju') tidak++;
+            else if (sikap === 'Abstain') abstain++;
+        });
+
+        // Update stats
+        document.getElementById('totalStat').textContent = total;
+        document.getElementById('setujuStat').textContent = setuju;
+        document.getElementById('tidakStat').textContent = tidak;
+        document.getElementById('abstainStat').textContent = abstain;
+        document.getElementById('jumlahTtd').textContent = total;
+
+        // Update daftar
+        if (total === 0) {
+            list.innerHTML = '<li class="state-row"><i class="fa-regular fa-file-lines"></i> Belum ada tanda tangan. Jadilah yang pertama!</li>';
+        } else {
+            const reversed = [...penandatangan].reverse();
+            list.innerHTML = reversed.map((p, idx) => {
+                const num = String(reversed.length - idx).padStart(2, '0');
+                let cls, icon;
+                if (p.sikap === 'Setuju') { cls = 'setuju'; icon = 'fa-solid fa-circle-check'; }
+                else if (p.sikap === 'Tidak Setuju') { cls = 'tidak'; icon = 'fa-solid fa-circle-xmark'; }
+                else { cls = 'abstain'; icon = 'fa-solid fa-circle-minus'; }
+                return `<li><span class="num">${num}</span><span class="name">${escapeHtml(p.nama)}</span><span class="tag ${cls}"><i class="${icon}"></i>${escapeHtml(p.sikap)}</span></li>`;
+            }).join('');
+        }
+    } catch (error) {
+        console.error('Error loadData:', error);
+        list.innerHTML = '<li class="state-row"><i class="fa-solid fa-triangle-exclamation"></i> Gagal memuat data. Periksa koneksi atau token Airtable.</li>';
     }
-  } catch(error){
-    document.getElementById('daftar').innerHTML = '<li class="state-row"><i class="fa-solid fa-triangle-exclamation"></i> Gagal memuat data. Refresh halaman.</li>';
-    console.error('Error loadData:', error);
-  }
 }
 
-async function tandaTangan(){
-  const nama = document.getElementById('nama').value.trim();
-  const sikap = document.querySelector('input[name="sikap"]:checked');
+// ========== KIRIM TANDA TANGAN KE AIRTABLE ==========
+async function tandaTangan() {
+    const nama = document.getElementById('nama').value.trim();
+    const sikap = document.querySelector('input[name="sikap"]:checked');
 
-  if(!nama){
-    alert('Harap isi nama Anda terlebih dahulu.');
-    document.getElementById('nama').focus();
-    return;
-  }
-  if(!sikap){
-    alert('Silakan pilih sikap Anda (Setuju / Tidak Setuju / Abstain).');
-    return;
-  }
+    if (!nama) {
+        alert('✍️ Harap isi nama Anda terlebih dahulu!');
+        document.getElementById('nama').focus();
+        return;
+    }
+    if (!sikap) {
+        alert('⚖️ Silakan pilih sikap Anda.');
+        return;
+    }
 
-  const btn = document.querySelector('.btn');
-  btn.disabled = true;
-  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengirim...';
+    const btn = document.querySelector('.btn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengirim...';
 
-  try{
-    await fetch(API_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ nama: nama, sikap: sikap.value })
-    });
+    try {
+        const url = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
+        const payload = getFields(nama, sikap.value);
 
-    alert('Terima kasih! Tanda tangan Anda berhasil tercatat.');
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
 
-    document.getElementById('nama').value = '';
-    document.querySelector('input[name="sikap"][value="Setuju"]').checked = true;
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`HTTP error! status: ${response.status} - ${JSON.stringify(errorData)}`);
+        }
 
-    await loadData();
-  } catch(error){
-    alert('Gagal mengirim data. Coba lagi nanti.');
-    console.error('Error tandaTangan:', error);
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fa-solid fa-feather-pointed"></i> Tandatangani Petisi';
-  }
+        alert('✅ Terima kasih! Tanda tangan Anda berhasil tercatat secara global.');
+
+        // Reset form
+        document.getElementById('nama').value = '';
+        document.querySelector('input[name="sikap"][value="Setuju"]').checked = true;
+
+        // Refresh data
+        await loadData();
+
+    } catch (error) {
+        console.error('Error tandaTangan:', error);
+        alert('❌ Gagal mengirim data. Periksa koneksi atau token Airtable.\nDetail: ' + error.message);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-feather-pointed"></i> Tandatangani Petisi';
+    }
 }
 
-function escapeHtml(text){
-  if(!text) return '';
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
-window.onload = function(){ loadData(); };
+// Load data saat halaman dibuka
+window.onload = function() { loadData(); };
 </script>
 
 </body>
-    </html>
-                                                             
+  </html>
