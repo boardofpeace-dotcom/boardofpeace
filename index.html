@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Petisi Kemerdekaan — Board of Peace</title>
+<title>Petisi Ditutup — Board of Peace</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -30,6 +30,7 @@
     min-height:100vh;
     display:flex;
     justify-content:center;
+    align-items:center;
     padding:48px 16px;
   }
   .sheet{
@@ -129,100 +130,23 @@
   .stat.tidak i, .stat.tidak strong{color:var(--tidak);}
   .stat.abstain i, .stat.abstain strong{color:var(--abstain);}
 
-  form{margin:30px 40px 10px;}
-  .field{margin-bottom:20px;}
-  .field label{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:13.5px;
+  .closed-banner{
+    margin:20px 40px 10px;
+    padding:16px 20px;
+    background:rgba(49,80,60,0.08);
+    border:2px solid var(--gold);
+    border-radius:8px;
+    text-align:center;
+    font-family:'Fraunces',serif;
+    font-size:18px;
     font-weight:600;
-    color:var(--ink);
-    margin-bottom:8px;
+    color:var(--forest);
+    letter-spacing:0.5px;
   }
-  .field label i{color:var(--forest); font-size:13px;}
-  input[type="text"]{
-    width:100%;
-    padding:13px 15px;
-    font-size:16px;
-    font-family:'Inter',sans-serif;
-    border:1px solid var(--parchment-line);
-    border-radius:6px;
-    background:#fffdf9;
-    color:var(--ink);
+  .closed-banner i{
+    color:var(--gold);
+    margin-right:10px;
   }
-  input[type="text"]:focus{
-    outline:none;
-    border-color:var(--forest);
-    box-shadow:0 0 0 3px rgba(49,80,60,0.15);
-  }
-  .choices{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-  }
-  .choice{
-    flex:1;
-    min-width:120px;
-    position:relative;
-  }
-  .choice input{
-    position:absolute;
-    opacity:0;
-    inset:0;
-    cursor:pointer;
-    margin:0;
-  }
-  .choice .pill{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    padding:11px 10px;
-    border:1px solid var(--parchment-line);
-    border-radius:6px;
-    font-size:14px;
-    font-weight:500;
-    color:var(--ink-soft);
-    background:#fffdf9;
-    transition:0.15s ease;
-  }
-  .choice input:checked + .pill{
-    border-color:currentColor;
-  }
-  .choice.c-setuju .pill{color:var(--setuju);}
-  .choice.c-tidak .pill{color:var(--tidak);}
-  .choice.c-abstain .pill{color:var(--abstain);}
-  .choice input:checked + .pill{
-    background:currentColor;
-    color:#fffdf9 !important;
-  }
-  .choice.c-setuju input:checked + .pill{background:var(--setuju); border-color:var(--setuju);}
-  .choice.c-tidak input:checked + .pill{background:var(--tidak); border-color:var(--tidak);}
-  .choice.c-abstain input:checked + .pill{background:var(--abstain); border-color:var(--abstain);}
-
-  .btn{
-    width:100%;
-    padding:15px;
-    margin-top:22px;
-    background:var(--forest);
-    color:#fdf8ee;
-    border:none;
-    border-radius:6px;
-    font-family:'Inter',sans-serif;
-    font-size:15.5px;
-    font-weight:600;
-    letter-spacing:0.2px;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    transition:0.2s ease;
-  }
-  .btn:hover{background:var(--forest-dark);}
-  .btn:active{transform:scale(0.985);}
-  .btn:disabled{opacity:0.65; cursor:default;}
 
   .ledger{
     margin:34px 40px 0;
@@ -302,10 +226,30 @@
     gap:8px;
   }
 
+  .btn-disabled{
+    width:100%;
+    padding:15px;
+    margin-top:22px;
+    background:#b0a898;
+    color:#fdf8ee;
+    border:none;
+    border-radius:6px;
+    font-family:'Inter',sans-serif;
+    font-size:15.5px;
+    font-weight:600;
+    letter-spacing:0.2px;
+    cursor:not-allowed;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    opacity:0.7;
+  }
+
   @media (max-width:520px){
     body{padding:0;}
     .sheet{border-radius:0; min-height:100vh;}
-    .masthead, .titleblock, .manifesto, .stats, form, .ledger, .colophon{
+    .masthead, .titleblock, .manifesto, .stats, .closed-banner, .ledger, .colophon{
       margin-left:22px; margin-right:22px;
     }
     .masthead{padding-left:0; padding-right:0;}
@@ -313,8 +257,6 @@
     .stats{flex-wrap:wrap;}
     .stat{flex:1 1 50%; border-bottom:1px solid var(--parchment-line);}
     .stat:nth-child(2n){border-right:none;}
-    .choices{flex-direction:column;}
-    .choice{min-width:100%;}
   }
 </style>
 </head>
@@ -332,195 +274,42 @@
     <p class="subhead">Memisahkan diri dari Komunitas Ostravia</p>
   </div>
 
+  <div class="closed-banner">
+    <i class="fa-solid fa-lock"></i> Petisi Resmi Ditutup
+  </div>
+
   <div class="manifesto">
     Kami, para penanda tangan, menyatakan bahwa <strong>Board of Peace</strong> adalah entitas yang otonom, berdaulat, dan tidak lagi terikat dengan komunitas <strong>Ostravia</strong>. Kami percaya pada nilai-nilai perdamaian, kebebasan berekspresi, dan tata kelola yang adil.
   </div>
 
   <div class="stats">
-    <div class="stat total"><i class="fa-solid fa-users"></i><strong id="totalStat">0</strong><span>Total</span></div>
-    <div class="stat setuju"><i class="fa-solid fa-circle-check"></i><strong id="setujuStat">0</strong><span>Setuju</span></div>
-    <div class="stat tidak"><i class="fa-solid fa-circle-xmark"></i><strong id="tidakStat">0</strong><span>Tidak</span></div>
-    <div class="stat abstain"><i class="fa-solid fa-circle-minus"></i><strong id="abstainStat">0</strong><span>Abstain</span></div>
+    <div class="stat total"><i class="fa-solid fa-users"></i><strong>36</strong><span>Total</span></div>
+    <div class="stat setuju"><i class="fa-solid fa-circle-check"></i><strong>27</strong><span>Setuju</span></div>
+    <div class="stat tidak"><i class="fa-solid fa-circle-xmark"></i><strong>8</strong><span>Tidak</span></div>
+    <div class="stat abstain"><i class="fa-solid fa-circle-minus"></i><strong>1</strong><span>Abstain</span></div>
   </div>
 
-  <form id="petisiForm" onsubmit="return false;">
-    <div class="field">
-      <label for="nama"><i class="fa-solid fa-feather-pointed"></i> Nama lengkap</label>
-      <input type="text" id="nama" placeholder="Tulis nama Anda" required>
+  <div style="margin: 10px 40px 0;">
+    <div class="btn-disabled">
+      <i class="fa-solid fa-ban"></i> Petisi Telah Berakhir
     </div>
-    <div class="field">
-      <label><i class="fa-solid fa-scale-balanced"></i> Pilihan sikap</label>
-      <div class="choices">
-        <label class="choice c-setuju">
-          <input type="radio" name="sikap" value="Setuju" checked>
-          <span class="pill"><i class="fa-solid fa-circle-check"></i> Setuju</span>
-        </label>
-        <label class="choice c-tidak">
-          <input type="radio" name="sikap" value="Tidak Setuju">
-          <span class="pill"><i class="fa-solid fa-circle-xmark"></i> Tidak Setuju</span>
-        </label>
-        <label class="choice c-abstain">
-          <input type="radio" name="sikap" value="Abstain">
-          <span class="pill"><i class="fa-solid fa-circle-minus"></i> Abstain</span>
-        </label>
-      </div>
-    </div>
-    <button type="button" class="btn" onclick="tandaTangan()">
-      <i class="fa-solid fa-feather-pointed"></i> Tandatangani Petisi
-    </button>
-  </form>
+  </div>
 
   <div class="ledger">
-    <h3><i class="fa-solid fa-scroll"></i> Penandatangan <span class="count" id="jumlahTtd">0</span></h3>
-    <ul id="daftar"><li class="state-row"><i class="fa-solid fa-spinner fa-spin"></i> Memuat data...</li></ul>
+    <h3><i class="fa-solid fa-scroll"></i> Penandatangan <span class="count">36</span></h3>
+    <ul id="daftar">
+      <li><span class="num">01</span><span class="name">Anonim</span><span class="tag setuju"><i class="fa-solid fa-circle-check"></i>Setuju</span></li>
+      <li><span class="num">02</span><span class="name">Anonim</span><span class="tag setuju"><i class="fa-solid fa-circle-check"></i>Setuju</span></li>
+      <li><span class="num">03</span><span class="name">Anonim</span><span class="tag setuju"><i class="fa-solid fa-circle-check"></i>Setuju</span></li>
+      <li><span class="num">04</span><span class="name">Anonim</span><span class="tag setuju"><i class="fa-solid fa-circle-check"></i>Setuju</span></li>
+      <li><span class="num">05</span><span class="name">Anonim</span><span class="tag setuju"><i class="fa-solid fa-circle-check"></i>Setuju</span></li>
+      <li><span class="num">...</span><span class="name" style="color:var(--ink-soft); font-style:italic;">dan 31 lainnya</span><span></span></li>
+    </ul>
   </div>
 
   <div class="colophon"><i class="fa-solid fa-dove"></i> Kemerdekaan adalah hak segala makhluk</div>
 
 </div>
 
-<script>
-// ============================================================
-// KONFIGURASI AIRTABLE 
-// ============================================================
-const AIRTABLE_TOKEN = 'patJGDi1qycN6cDvI.2b612b682d1fd20160c44bb6553270b1d426bdef4a680311355b59c265185897';
-const BASE_ID = 'appSlTj1RmupALde2';
-const TABLE_NAME = 'tblYakJnlz6t2ZPYl';
-
-// ========== FUNGSI MEMUAT DATA ==========
-async function loadData() {
-    const list = document.getElementById('daftar');
-    try {
-        const url = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
-        const response = await fetch(url, {
-            headers: { 'Authorization': `Bearer ${AIRTABLE_TOKEN}` }
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        const records = data.records;
-
-        // Hitung statistik
-        let total = records.length;
-        let setuju = 0, tidak = 0, abstain = 0;
-        let penandatangan = [];
-
-        records.forEach(record => {
-            // PERBAIKAN: Menggunakan "Nama" sesuai dengan kolom di Airtable
-            const nama = record.fields.Nama || 'Anonim';
-            const sikap = record.fields.Sikap || 'Tidak Diketahui';
-            penandatangan.push({ nama, sikap });
-            if (sikap === 'Setuju') setuju++;
-            else if (sikap === 'Tidak Setuju') tidak++;
-            else if (sikap === 'Abstain') abstain++;
-        });
-
-        // Update elemen statistik
-        document.getElementById('totalStat').textContent = total;
-        document.getElementById('setujuStat').textContent = setuju;
-        document.getElementById('tidakStat').textContent = tidak;
-        document.getElementById('abstainStat').textContent = abstain;
-        document.getElementById('jumlahTtd').textContent = total;
-
-        // Update daftar penandatangan
-        if (total === 0) {
-            list.innerHTML = '<li class="state-row"><i class="fa-regular fa-file-lines"></i> Belum ada tanda tangan. Jadilah yang pertama!</li>';
-        } else {
-            const reversed = [...penandatangan].reverse();
-            list.innerHTML = reversed.map((p, idx) => {
-                const num = String(reversed.length - idx).padStart(2, '0');
-                let cls, icon;
-                if (p.sikap === 'Setuju') { cls = 'setuju'; icon = 'fa-solid fa-circle-check'; }
-                else if (p.sikap === 'Tidak Setuju') { cls = 'tidak'; icon = 'fa-solid fa-circle-xmark'; }
-                else { cls = 'abstain'; icon = 'fa-solid fa-circle-minus'; }
-                return `<li>
-                            <span class="num">${num}</span>
-                            <span class="name">${escapeHtml(p.nama)}</span>
-                            <span class="tag ${cls}"><i class="${icon}"></i>${escapeHtml(p.sikap)}</span>
-                        </li>`;
-            }).join('');
-        }
-    } catch (error) {
-        console.error('Error loadData:', error);
-        list.innerHTML = '<li class="state-row"><i class="fa-solid fa-triangle-exclamation"></i> Gagal memuat data. Periksa koneksi atau token Airtable.</li>';
-    }
-}
-
-// ========== FUNGSI MENANDATANGANI ==========
-async function tandaTangan() {
-    const nama = document.getElementById('nama').value.trim();
-    const sikap = document.querySelector('input[name="sikap"]:checked');
-
-    if (!nama) {
-        alert('✍️ Harap isi nama Anda terlebih dahulu!');
-        document.getElementById('nama').focus();
-        return;
-    }
-    if (!sikap) {
-        alert('⚖️ Silakan pilih sikap Anda.');
-        return;
-    }
-
-    const btn = document.querySelector('.btn');
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengirim...';
-
-    try {
-        const url = `https://api.airtable.com/v0/${BASE_ID}/${TABLE_NAME}`;
-        const payload = {
-            fields: {
-                // PERBAIKAN: Menggunakan "Nama" sesuai dengan kolom di Airtable
-                Nama: nama,
-                Sikap: sikap.value,
-                Waktu: new Date().toISOString()
-            }
-        };
-
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${AIRTABLE_TOKEN}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(`HTTP error! status: ${response.status} - ${JSON.stringify(errorData)}`);
-        }
-
-        alert('✅ Terima kasih! Tanda tangan Anda berhasil tercatat secara global.');
-
-        // Reset form
-        document.getElementById('nama').value = '';
-        document.querySelector('input[name="sikap"][value="Setuju"]').checked = true;
-
-        // Refresh data
-        await loadData();
-
-    } catch (error) {
-        console.error('Error tandaTangan:', error);
-        alert('❌ Gagal mengirim data. Periksa koneksi atau token Airtable.\nDetail: ' + error.message);
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-feather-pointed"></i> Tandatangani Petisi';
-    }
-}
-
-function escapeHtml(text) {
-    if (!text) return '';
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-// ========== JALANKAN SAAT HALAMAN DIMUAT ==========
-window.onload = function() { loadData(); };
-</script>
-
 </body>
-    </html>
+</html>
