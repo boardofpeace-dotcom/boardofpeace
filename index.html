@@ -5,291 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Petisi Kemerdekaan Board of Peace</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Georgia', 'Times New Roman', serif;
-            background: #f4f1ea;
-            color: #2c2c2c;
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .container {
-            max-width: 720px;
-            width: 100%;
-            background: #ffffff;
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 12px 40px rgba(0,0,0,0.08);
-            border: 1px solid #e8e0d5;
-            position: relative;
-        }
-
-        /* Dekorasi ala Board of Peace */
-        .container::before {
-            content: "☮️";
-            font-size: 48px;
-            position: absolute;
-            top: -24px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #f4f1ea;
-            padding: 0 16px;
-        }
-
-        .seal {
-            text-align: center;
-            font-size: 14px;
-            letter-spacing: 3px;
-            color: #8a7a6a;
-            border-bottom: 2px solid #dfd6cb;
-            padding-bottom: 18px;
-            margin-bottom: 24px;
-            text-transform: uppercase;
-        }
-
-        .seal span {
-            display: block;
-            font-size: 32px;
-            letter-spacing: 0;
-            margin-bottom: 4px;
-        }
-
-        h1 {
-            font-size: 28px;
-            font-weight: 700;
-            text-align: center;
-            color: #1e2b2f;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
-        }
-
-        .subhead {
-            text-align: center;
-            font-style: italic;
-            color: #6b5d4e;
-            font-size: 16px;
-            border-bottom: 1px dashed #ddd2c5;
-            padding-bottom: 20px;
-            margin-bottom: 24px;
-        }
-
-        .manifesto {
-            background: #f9f6f0;
-            padding: 20px 24px;
-            border-left: 6px solid #b8a48c;
-            border-radius: 8px;
-            margin-bottom: 28px;
-            font-size: 15px;
-            line-height: 1.7;
-            color: #2f2a24;
-        }
-
-        .manifesto strong {
-            color: #1e3c3f;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            font-size: 15px;
-            margin-bottom: 6px;
-            color: #2f2a24;
-            letter-spacing: 0.3px;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 14px 16px;
-            font-size: 16px;
-            border: 1px solid #d6cdc0;
-            border-radius: 12px;
-            background: #fcfaf7;
-            transition: all 0.2s ease;
-            font-family: inherit;
-            color: #1e1a16;
-        }
-
-        input:focus, select:focus {
-            outline: none;
-            border-color: #9b8876;
-            box-shadow: 0 0 0 4px rgba(155, 136, 118, 0.15);
-            background: #ffffff;
-        }
-
-        .radio-group {
-            display: flex;
-            gap: 24px;
-            flex-wrap: wrap;
-            margin-top: 6px;
-        }
-
-        .radio-group label {
-            font-weight: 400;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 8px 16px 8px 12px;
-            border-radius: 40px;
-            border: 1px solid #e3d9ce;
-            background: #fcfaf7;
-            transition: 0.2s;
-        }
-
-        .radio-group label:hover {
-            background: #f3eee8;
-            border-color: #b8a48c;
-        }
-
-        .radio-group input[type="radio"] {
-            width: 18px;
-            height: 18px;
-            accent-color: #4e6b5e;
-            margin: 0;
-            flex-shrink: 0;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 16px;
-            background: #2a3e3a;
-            color: white;
-            border: none;
-            border-radius: 40px;
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: 0.25s ease;
-            font-family: inherit;
-            margin-top: 8px;
-            box-shadow: 0 4px 12px rgba(42, 62, 58, 0.2);
-        }
-
-        .btn:hover {
-            background: #1e2f2b;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(42, 62, 58, 0.25);
-        }
-
-        .btn:active {
-            transform: scale(0.97);
-        }
-
-        .signature-list {
-            margin-top: 32px;
-            border-top: 2px solid #e3d9ce;
-            padding-top: 20px;
-        }
-
-        .signature-list h3 {
-            font-size: 18px;
-            font-weight: 600;
-            color: #2a3e3a;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 14px;
-        }
-
-        .signature-list h3 span {
-            background: #2a3e3a;
-            color: white;
-            font-size: 14px;
-            border-radius: 40px;
-            padding: 2px 14px;
-        }
-
-        #daftar {
-            list-style: none;
-            padding: 0;
-        }
-
-        #daftar li {
-            padding: 10px 14px;
-            margin-bottom: 6px;
-            background: #f9f6f0;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 15px;
-            border-left: 4px solid #b8a48c;
-            animation: fadeIn 0.3s ease;
-        }
-
-        #daftar li .badge {
-            background: #4e6b5e;
-            color: white;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 2px 14px;
-            border-radius: 40px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-left: auto;
-        }
-
-        .footer-note {
-            margin-top: 24px;
-            font-size: 13px;
-            color: #9a8b7b;
-            text-align: center;
-            border-top: 1px solid #ece4db;
-            padding-top: 18px;
-            font-style: italic;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .empty-state {
-            color: #b0a292;
-            font-style: italic;
-            padding: 10px 0;
-            font-size: 14px;
-        }
-
-        @media (max-width: 480px) {
-            .container { padding: 28px 16px; }
-            h1 { font-size: 22px; }
-            .radio-group { gap: 12px; }
-            .radio-group label { padding: 6px 14px 6px 10px; font-size: 14px; }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Georgia', serif; background: #f4f1ea; padding: 20px; min-height: 100vh; display: flex; justify-content: center; align-items: center; }
+        .container { max-width: 720px; width: 100%; background: white; padding: 40px 30px; border-radius: 20px; box-shadow: 0 12px 40px rgba(0,0,0,0.08); border: 1px solid #e8e0d5; position: relative; }
+        .container::before { content: "☮️"; font-size: 48px; position: absolute; top: -24px; left: 50%; transform: translateX(-50%); background: #f4f1ea; padding: 0 16px; }
+        .seal { text-align: center; font-size: 14px; letter-spacing: 3px; color: #8a7a6a; border-bottom: 2px solid #dfd6cb; padding-bottom: 18px; margin-bottom: 24px; text-transform: uppercase; }
+        .seal span { display: block; font-size: 32px; letter-spacing: 0; margin-bottom: 4px; }
+        h1 { font-size: 28px; font-weight: 700; text-align: center; color: #1e2b2f; margin-bottom: 8px; }
+        .subhead { text-align: center; font-style: italic; color: #6b5d4e; font-size: 16px; border-bottom: 1px dashed #ddd2c5; padding-bottom: 20px; margin-bottom: 24px; }
+        .stats { display: flex; gap: 16px; flex-wrap: wrap; margin: 20px 0; padding: 16px; background: #f9f6f0; border-radius: 12px; justify-content: space-around; }
+        .stats div { font-size: 15px; }
+        .stats strong { display: block; font-size: 24px; }
+        .stats .setuju strong { color: #2a7a3a; }
+        .stats .tidak strong { color: #c0392b; }
+        .stats .abstain strong { color: #7f8c8d; }
+        .manifesto { background: #f9f6f0; padding: 20px 24px; border-left: 6px solid #b8a48c; border-radius: 8px; margin-bottom: 28px; font-size: 15px; line-height: 1.7; color: #2f2a24; }
+        .manifesto strong { color: #1e3c3f; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 600; font-size: 15px; margin-bottom: 6px; color: #2f2a24; }
+        input, select { width: 100%; padding: 14px 16px; font-size: 16px; border: 1px solid #d6cdc0; border-radius: 12px; background: #fcfaf7; transition: all 0.2s ease; font-family: inherit; }
+        input:focus, select:focus { outline: none; border-color: #9b8876; box-shadow: 0 0 0 4px rgba(155, 136, 118, 0.15); background: #ffffff; }
+        .radio-group { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 6px; }
+        .radio-group label { font-weight: 400; display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 16px; padding: 8px 16px 8px 12px; border-radius: 40px; border: 1px solid #e3d9ce; background: #fcfaf7; transition: 0.2s; }
+        .radio-group label:hover { background: #f3eee8; border-color: #b8a48c; }
+        .radio-group input[type="radio"] { width: 18px; height: 18px; accent-color: #4e6b5e; margin: 0; flex-shrink: 0; }
+        .btn { width: 100%; padding: 16px; background: #2a3e3a; color: white; border: none; border-radius: 40px; font-size: 18px; font-weight: 700; letter-spacing: 1px; cursor: pointer; transition: 0.25s ease; font-family: inherit; margin-top: 8px; box-shadow: 0 4px 12px rgba(42, 62, 58, 0.2); }
+        .btn:hover { background: #1e2f2b; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(42, 62, 58, 0.25); }
+        .btn:active { transform: scale(0.97); }
+        .signature-list { margin-top: 32px; border-top: 2px solid #e3d9ce; padding-top: 20px; }
+        .signature-list h3 { font-size: 18px; font-weight: 600; color: #2a3e3a; display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+        .signature-list h3 span { background: #2a3e3a; color: white; font-size: 14px; border-radius: 40px; padding: 2px 14px; }
+        #daftar { list-style: none; padding: 0; }
+        #daftar li { padding: 10px 14px; margin-bottom: 6px; background: #f9f6f0; border-radius: 30px; display: flex; align-items: center; gap: 12px; font-size: 15px; border-left: 4px solid #b8a48c; animation: fadeIn 0.3s ease; flex-wrap: wrap; }
+        #daftar li .badge { background: #4e6b5e; color: white; font-size: 11px; font-weight: 700; padding: 2px 14px; border-radius: 40px; text-transform: uppercase; letter-spacing: 0.5px; margin-left: auto; }
+        .empty-state { color: #b0a292; font-style: italic; padding: 10px 0; font-size: 14px; }
+        .footer-note { margin-top: 24px; font-size: 13px; color: #9a8b7b; text-align: center; border-top: 1px solid #ece4db; padding-top: 18px; font-style: italic; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+        @media (max-width: 480px) { .container { padding: 28px 16px; } h1 { font-size: 22px; } .radio-group { gap: 12px; } .radio-group label { padding: 6px 14px 6px 10px; font-size: 14px; } }
+        .loading { text-align: center; padding: 20px; color: #8a7a6a; }
     </style>
 </head>
 <body>
 
 <div class="container">
-
-    <div class="seal">
-        <span>✧</span>
-        BOARD OF PEACE · DEKLARASI
-    </div>
-
+    <div class="seal"><span>✧</span>BOARD OF PEACE · DEKLARASI</div>
     <h1>Petisi Kemerdekaan Board of Peace</h1>
     <div class="subhead">Memisahkan diri dari Komunitas Ostravia</div>
 
+    <!-- Statistik realtime -->
+    <div class="stats">
+        <div class="total"><strong id="totalStat">0</strong>Total</div>
+        <div class="setuju"><strong id="setujuStat">0</strong>✅ Setuju</div>
+        <div class="tidak"><strong id="tidakStat">0</strong>❌ Tidak</div>
+        <div class="abstain"><strong id="abstainStat">0</strong>➖ Abstain</div>
+    </div>
+
     <div class="manifesto">
         <strong>☮️ Kami, para penanda tangan,</strong> menyatakan bahwa <strong>Board of Peace</strong> adalah entitas yang otonom, berdaulat, dan tidak lagi terikat dengan komunitas <strong>Ostravia</strong>. 
-        Kami percaya pada nilai-nilai perdamaian, kebebasan berekspresi, dan tata kelola yang adil. 
-        Dengan petisi ini, kami menuntut pengakuan resmi atas kemerdekaan Board of Peace serta hak untuk menentukan jalannya sendiri.
+        Kami percaya pada nilai-nilai perdamaian, kebebasan berekspresi, dan tata kelola yang adil.
     </div>
 
     <form id="petisiForm" onsubmit="return false;">
@@ -297,124 +70,124 @@
             <label for="nama">🕊️ Nama Lengkap</label>
             <input type="text" id="nama" placeholder="Tulis nama Anda" required>
         </div>
-
         <div class="form-group">
             <label>⚖️ Pilihan Sikap</label>
             <div class="radio-group">
-                <label>
-                    <input type="radio" name="sikap" value="Setuju" checked>
-                    ✅ Setuju
-                </label>
-                <label>
-                    <input type="radio" name="sikap" value="Tidak Setuju">
-                    ❌ Tidak Setuju
-                </label>
-                <label>
-                    <input type="radio" name="sikap" value="Abstain">
-                    ➖ Abstain
-                </label>
+                <label><input type="radio" name="sikap" value="Setuju" checked> ✅ Setuju</label>
+                <label><input type="radio" name="sikap" value="Tidak Setuju"> ❌ Tidak Setuju</label>
+                <label><input type="radio" name="sikap" value="Abstain"> ➖ Abstain</label>
             </div>
         </div>
-
         <button type="button" class="btn" onclick="tandaTangan()">✍️ Tandatangani Petisi</button>
     </form>
 
     <div class="signature-list">
-        <h3>
-            📜 Penandatangan
-            <span id="jumlahTtd">0</span>
-        </h3>
-        <ul id="daftar">
-            <li class="empty-state">Belum ada tanda tangan. Jadilah yang pertama!</li>
-        </ul>
+        <h3>📜 Penandatangan <span id="jumlahTtd">0</span></h3>
+        <ul id="daftar"><li class="loading">⏳ Memuat data...</li></ul>
     </div>
 
-    <div class="footer-note">
-        Board of Peace · Kemerdekaan adalah hak segala makhluk
-    </div>
+    <div class="footer-note">Board of Peace · Kemerdekaan adalah hak segala makhluk</div>
 </div>
 
 <script>
-    // Inisialisasi array penandatangan
-    let penandatangan = [];
+// ============================================================
+// GANTI URL INI DENGAN WEB APP URL KAMU
+// ============================================================
+const API_URL = 'https://script.google.com/macros/s/AKfycbz3pITH2_VoZnQ1VRjtcnNkIweqn2xZUxW94qR9JbfToHTDXSGs2sykxK-m6zWIpcuy/exec';
 
-    function tandaTangan() {
-        const namaInput = document.getElementById('nama');
-        const nama = namaInput.value.trim();
-        const sikap = document.querySelector('input[name="sikap"]:checked');
+// ========== AMBIL DATA DARI GOOGLE SHEETS ==========
+async function loadData() {
+    try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        
+        // Update statistik
+        document.getElementById('totalStat').textContent = data.total || 0;
+        document.getElementById('setujuStat').textContent = data.setuju || 0;
+        document.getElementById('tidakStat').textContent = data.tidak || 0;
+        document.getElementById('abstainStat').textContent = data.abstain || 0;
+        document.getElementById('jumlahTtd').textContent = data.total || 0;
 
-        if (nama === '') {
-            alert('Harap isi nama Anda terlebih dahulu.');
-            namaInput.focus();
-            return;
+        // Update daftar
+        const list = document.getElementById('daftar');
+        if (!data.list || data.list.length === 0) {
+            list.innerHTML = '<li class="empty-state">Belum ada tanda tangan. Jadilah yang pertama!</li>';
+        } else {
+            // Tampilkan dari yang terbaru (balik urutan)
+            const reversed = data.list.slice().reverse();
+            list.innerHTML = reversed.map(p => {
+                let badgeText = p.sikap;
+                let icon = p.sikap === 'Setuju' ? '✅' : p.sikap === 'Tidak Setuju' ? '❌' : '➖';
+                return `<li><span>🕊️ ${escapeHtml(p.nama)}</span><span class="badge">${icon} ${escapeHtml(p.sikap)}</span></li>`;
+            }).join('');
         }
+    } catch (error) {
+        document.getElementById('daftar').innerHTML = '<li class="empty-state">⚠️ Gagal memuat data. Refresh halaman.</li>';
+        console.error('Error loadData:', error);
+    }
+}
 
-        if (!sikap) {
-            alert('Silakan pilih sikap Anda (Setuju / Tidak Setuju / Abstain).');
-            return;
-        }
+// ========== KIRIM TANDA TANGAN ==========
+async function tandaTangan() {
+    const nama = document.getElementById('nama').value.trim();
+    const sikap = document.querySelector('input[name="sikap"]:checked');
 
-        // Simpan data
-        penandatangan.push({
-            nama: nama,
-            sikap: sikap.value
+    if (!nama) {
+        alert('✍️ Harap isi nama Anda terlebih dahulu!');
+        document.getElementById('nama').focus();
+        return;
+    }
+
+    if (!sikap) {
+        alert('⚖️ Silakan pilih sikap Anda (Setuju / Tidak Setuju / Abstain).');
+        return;
+    }
+
+    // Nonaktifkan tombol sementara (mencegah double submit)
+    const btn = document.querySelector('.btn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Mengirim...';
+
+    try {
+        // Kirim data ke Google Sheets (pakai POST)
+        await fetch(API_URL, {
+            method: 'POST',
+            mode: 'no-cors', // Penting! Karena kita gak perlu baca response
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nama: nama, sikap: sikap.value })
         });
 
+        alert('✅ Terima kasih! Tanda tangan Anda berhasil tercatat.');
+        
         // Reset form
-        namaInput.value = '';
-        // Reset radio ke default (Setuju)
+        document.getElementById('nama').value = '';
         document.querySelector('input[name="sikap"][value="Setuju"]').checked = true;
+        
+        // Refresh data dari server
+        await loadData();
 
-        // Update UI
-        renderDaftar();
+    } catch (error) {
+        alert('❌ Gagal mengirim data. Coba lagi nanti.');
+        console.error('Error tandaTangan:', error);
+    } finally {
+        // Aktifkan tombol lagi
+        btn.disabled = false;
+        btn.textContent = '✍️ Tandatangani Petisi';
     }
+}
 
-    function renderDaftar() {
-        const list = document.getElementById('daftar');
-        const jumlahSpan = document.getElementById('jumlahTtd');
+// ========== UTILITY ==========
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
 
-        // Update jumlah
-        jumlahSpan.textContent = penandatangan.length;
-
-        if (penandatangan.length === 0) {
-            list.innerHTML = '<li class="empty-state">Belum ada tanda tangan. Jadilah yang pertama!</li>';
-            return;
-        }
-
-        // Bangun list
-        let html = '';
-        for (let i = penandatangan.length - 1; i >= 0; i--) {
-            const p = penandatangan[i];
-            let badgeText = '';
-            let badgeClass = '';
-
-            if (p.sikap === 'Setuju') {
-                badgeText = '✅ Setuju';
-                badgeClass = 'badge';
-            } else if (p.sikap === 'Tidak Setuju') {
-                badgeText = '❌ Tidak Setuju';
-                badgeClass = 'badge';
-            } else {
-                badgeText = '➖ Abstain';
-                badgeClass = 'badge';
-            }
-
-            html += `
-                <li>
-                    <span>🕊️ ${escapeHtml(p.nama)}</span>
-                    <span class="${badgeClass}">${badgeText}</span>
-                </li>
-            `;
-        }
-        list.innerHTML = html;
-    }
-
-    // Fungsi sederhana untuk prevent XSS (meski ini lokal)
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
+// ========== LOAD DATA SAAT HALAMAN DIBUKA ==========
+window.onload = function() {
+    loadData();
+};
 </script>
 
 </body>
